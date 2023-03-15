@@ -24,6 +24,28 @@ custom color variables
     --chip-green: #6FCE1E;
 }
 
+html {
+    font-family: sans-serif;
+}
+
 body {
     background-color: var(--table-green);
+}
+
+h1 {
+    color: var(--gold);
+}
+
+h2 {
+    color: var(--white);
+}
+
+.container {
+    height: 100vh;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
