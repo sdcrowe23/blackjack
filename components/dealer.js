@@ -1,5 +1,5 @@
 // Create Dealer class
-export class Dealer {
+export default class Dealer {
     constructor() {
         this.name = "Dealer";
         this.deck = new Deck();

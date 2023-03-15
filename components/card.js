@@ -1,6 +1,6 @@
 // Create Card class
 
-export class Card {
+export default class Card {
     constructor(suits, values) {
         this.suit = suits;
         this.value = values;
