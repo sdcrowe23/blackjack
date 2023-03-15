@@ -1,5 +1,7 @@
 // Create Player class
 
+import { handScorer } from "./scoreHandler.js"
+
 export default class Player {
     constructor(name) {
         this.name = name;

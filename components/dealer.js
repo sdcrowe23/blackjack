@@ -1,4 +1,7 @@
 // Create Dealer class
+import Deck from "./deck.js";
+import { handScorer } from "./scoreHandler.js";
+
 export default class Dealer {
     constructor() {
         this.name = "Dealer";
