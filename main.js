@@ -1,6 +1,12 @@
 // import ES6 Modules
 // Game play happens here
 
+import Card from "./components/card.js"
+import Deck from "./components/deck.js"
+import Player from "./components/player.js"
+import Dealer from "./components/dealer.js"
+import { handScorer } from "./components/scoreHandler.js"
+
 /*
 
 1. Player answers prompt to start game
