@@ -5,3 +5,25 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+/* 
+
+custom color variables
+
+*/
+
+:root {
+    --table-green: #137546;
+    --gold: #D5C71B;
+    --black: #000;
+    --suit-red: #FA3000;
+    --white: #fff;
+    --chip-black: #3E3E3E;
+    --chip-red: #FE2807;
+    --chip-blue: #1640C9;
+    --chip-green: #6FCE1E;
+}
+
+body {
+    background-color: var(--table-green);
+}
