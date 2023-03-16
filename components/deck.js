@@ -12,13 +12,13 @@ export default class Deck {
     initialize() {
 
         // loop through values/suits of Card object and return Card to this.cards array
-        Object.values(Card.suits).forEach((suit) => {
-            Object.values(Card.values).forEach((value) => {
-                return this.cards.push(new Card(suit, value));
-            })
-        })
+        for (const suit_indx in Card.suits) {
+            for (const value_indx in Card.values) {
+                this.cards.push(new Card(Card.suits[suit_indx], Card.values[value_indx]));
+            }
+        }
+        return
     }
-
     // shuffles this.card arry after Deck init
     shuffle() {
         for (const card_indx in this.cards) {
