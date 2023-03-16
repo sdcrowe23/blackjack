@@ -4,16 +4,16 @@ export const handScorer = (playerHand) => {
     // loop through hand.length
     for (let i = 0; i < playerHand.length; i++) {
         // check for face value cards and set total to 10
-        if (playerHand[i].value === "K" || playerHand[i].value === "Q" || playerHand[i].value === "J") {
-            total += 10;
+        if (playerHand[i].values.value === "K" || playerHand[i].values.value === "Q" || playerHand[i].values.value === "J") {
+            total += playerHand[i].values.weight;
             // check for ace and if total is less than or eqal to 10 then add 11 to total
-        } else if (playerHand[i].value == "A" && total <= 10) {
-            total += 11;
+        } else if (playerHand[i].values.value == "A" && total <= 10) {
+            total += playerHand[i].values.weight + 10;
             // check for ace and if total is greater than or eqal to 11 then add 1 to total
-        } else if (playerHand[i].value == "A" && total >= 11) {
-            total += 1;
+        } else if (playerHand[i].values.value == "A" && total >= 11) {
+            total += playerHand[i].values.weight;
         } else {
-            total += playerHand[i].value;
+            total += playerHand[i].values.weight;
         }
     }
     return total;
