@@ -32,6 +32,8 @@ const checkWinner = (player, dealer) => {
         console.log(loserMessage, loserColor)
     } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21) {
         console.log(loserMessage, loserColor)
+    } else if (dealer.handTotal > 21 && player.handTotal <= 21) {
+        console.log(winnerMessage, winnerColor);
     } else if (player.handTotal === dealer.handTotal) {
         console.log(tie, loserColor);
     }
@@ -80,9 +82,9 @@ const checkWinner = (player, dealer) => {
     await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1500));
     await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor), console.log("-----------------")), 1000));
 
-    const hitOrStay = prompt("Would you like to hit or stay?")
+    const hitOrStay = prompt("Would you like to hit or stay?", "Stay").toUpperCase();
 
-    if (hitOrStay === 'hit') {
+    if (hitOrStay === 'HIT') {
         dealerCard1 = `Card 1: ${dealer.hand[0].value} of ${dealer.hand[0].suit}`;
         dealerHandValue = dealer.handTotal;
         dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
@@ -105,8 +107,8 @@ const checkWinner = (player, dealer) => {
         dealerHandValue = dealer.handTotal;
         dealerHand = `%c ${dealer.name} has \n [${dealerCard1}], \n [${dealerCard2}] and \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
 
-        console.log(playerHand, playerColor);
         console.log(dealerHand, dealerColor);
+        console.log(playerHand, playerColor);
         console.log("-----------------");
 
         checkWinner(player, dealer);
