@@ -11,15 +11,15 @@ export default class Dealer {
 
     // Loops through deck 2 times
     // Pushes card to player hand then dealer hand
-    deal(playerTurn) {
+    deal(player) {
         for (let i = 0; i < 2; i++) {
             this.hand.push(this.deck.cards.pop());
-            playerTurn.hand.push(this.deck.cards.pop());
+            player.hand.push(this.deck.cards.pop());
         }
     }
 
     // call handScorer function to get total value of hand
-    get handTotal() {
+    handTotal() {
         return handScorer(this.hand);
     }
 }
