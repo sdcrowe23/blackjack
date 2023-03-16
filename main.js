@@ -23,35 +23,39 @@ const checkWinner = (player, dealer) => {
     const winnerColor = "color: green; font-size: 18px";
     const winnerMessage = '%c Hooooray! You won!'
     const loserColor = "color: red; font-size: 18px";
-    const loserMessage = '%c You bust! The dealer won.';
+    const loserMessage = '%c The dealer won.';
     const tie = "%c You tied!"
 
-    if (player.handTotal <= 21 && dealer.handTotal < player.handTotal) {
+    if (player.handTotal <= 21 && dealer.handTotal < player.handTotal || player.handTotal <= 21 && dealer.handTotal > 21) {
+        // player hand wins
         console.log(winnerMessage, winnerColor);
-    } else if (player.handTotal > 21 && dealer.handTotal <= 21) {
-        console.log(loserMessage, loserColor)
-    } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21) {
-        console.log(loserMessage, loserColor)
-    } else if (dealer.handTotal > 21 && player.handTotal <= 21) {
-        console.log(winnerMessage, winnerColor);
+    } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21 || player.handTotal > 21 && dealer.handTotal <= 21) {
+        // dealer hand wins
+        console.log(loserMessage, loserColor);
     } else if (player.handTotal === dealer.handTotal) {
+        // results in tie
         console.log(tie, loserColor);
     }
+
 }
 
 // IIFE
 (async () => {
     // get player name and create player
     // if name isn't provided default to player
-    const nameOfPlayer = prompt("What's your name boss?", "Player 1"); // how to default to player if name isn't provided
+    // how to default to player if name isn't provided
+    let nameOfPlayer;
+    await new Promise((resolve) => setTimeout(() => resolve(nameOfPlayer = prompt("What's your name boss?", "Player 1")), 500));
     let player = new Player(nameOfPlayer);
 
+    // if alert cancel button is pressed => returns 'null'
+    // sets player name to "Player 1"
     if (nameOfPlayer === null) {
         player = new Player('Player 1')
     }
 
     //initial game play set to no
-    // loop through prompt until player inputs Y or Yes
+    // loop through prompt until player inputs 'y' or 'yes'
     let readyToPlay = "N"
     do {
         readyToPlay = prompt("Are you ready to play blackjack?", "Yes").toUpperCase();
@@ -59,8 +63,8 @@ const checkWinner = (player, dealer) => {
 
     // guarded clause
     if (readyToPlay !== "Y" && readyToPlay !== "YES") return;
-    let dealerColor = "color: dodgerblue; font-size: 18px";
-    let playerColor = "color: gold; font-size: 18px"
+    let dealerColor = "color: #1640C9; font-size: 18px";
+    let playerColor = "color: #D5C71B; font-size: 18px"
 
 
     // init dealer and deal cards to player
@@ -79,8 +83,8 @@ const checkWinner = (player, dealer) => {
     let dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}]; \n Hand value: ${dealerHandValue}`;
 
 
-    await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1500));
-    await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor), console.log("-----------------")), 1000));
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1000));
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor), console.log("-----------------")), 1500));
 
     const hitOrStay = prompt("Would you like to hit or stay?", "Stay").toUpperCase();
 
@@ -90,7 +94,7 @@ const checkWinner = (player, dealer) => {
         dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
 
         playerHit(player, dealer);
-        const playerCard3 = `Card 3: ${player.hand[2].value} of ${player.hand[2].suit}`;
+        let playerCard3 = `Card 3: ${player.hand[2].value} of ${player.hand[2].suit}`;
         playerHandValue = player.handTotal;
         playerHand = `%c ${player.name} has \n [${playerCard1}], \n [${playerCard2}] and \n [${playerCard3}] \n Hand value: ${playerHandValue}`;
 
