@@ -11,6 +11,8 @@ import { handScorer } from "./components/scoreHandler.js"
 // push card from deck array to player hand
 const playerHit = (player, dealer) => {
     player.hand.push(dealer.deck.cards.pop());
+    handScorer(player);
+    handScorer(dealer)
 }
 
 // push card from deck array to dealer hand
@@ -26,13 +28,13 @@ const checkWinner = (player, dealer) => {
     const loserMessage = '%c The dealer won.';
     const tie = "%c You tied!"
 
-    if (player.handTotal <= 21 && dealer.handTotal < player.handTotal || player.handTotal <= 21 && dealer.handTotal > 21) {
+    if (player.handTotal(player) <= 21 && dealer.handTotal(dealer) < player.handTotal(player) || player.handTotal(player) <= 21 && dealer.handTotal(dealer) > 21) {
         // player hand wins
         console.log(winnerMessage, winnerColor);
-    } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21 || player.handTotal > 21 && dealer.handTotal <= 21) {
+    } else if (player.handTotal(player) < dealer.handTotal(dealer) && dealer.handTotal(dealer) <= 21 || player.handTotal(player) > 21 && dealer.handTotal(dealer) <= 21) {
         // dealer hand wins
         console.log(loserMessage, loserColor);
-    } else if (player.handTotal === dealer.handTotal) {
+    } else if (player.handTotal(player) === dealer.handTotal(dealer)) {
         // results in tie
         console.log(tie, loserColor);
     }
@@ -66,22 +68,20 @@ const checkWinner = (player, dealer) => {
     let dealerColor = "color: #1640C9; font-size: 18px";
     let playerColor = "color: #D5C71B; font-size: 18px"
 
-
     // init dealer and deal cards to player
     const dealer = new Dealer();
     dealer.deal(player);
-    let hiddenCard = 'HIDDEN CARD';
-
-    let playerCard1 = `Card 1: ${player.hand[0].value} of ${player.hand[0].suit}`;
-    let playerCard2 = `Card 2: ${player.hand[1].value} of ${player.hand[1].suit}`;
-    let playerHandValue = player.handTotal;
-    let playerHand = `%c ${player.name} has: \n [${playerCard1}] and \n [${playerCard2}]; \n Hand value: ${playerHandValue}`;
+    let hiddenCard = 'HIDDEN';
 
     let dealerCard1 = `Card 1: ${hiddenCard}`;
-    let dealerCard2 = `Card 2: ${dealer.hand[1].value} of ${dealer.hand[1].suit}`;
-    let dealerHandValue = dealer.handTotal - dealer.hand[0].value;
+    let dealerCard2 = `Card 2: ${dealer.hand[1].values.value} of ${dealer.hand[1].suits}`;
+    let dealerHandValue = dealer.handTotal(dealer) - dealer.hand[0].values.weight;
     let dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}]; \n Hand value: ${dealerHandValue}`;
 
+    let playerCard1 = `Card 1: ${player.hand[0].values.value} of ${player.hand[0].suits}`;
+    let playerCard2 = `Card 2: ${player.hand[1].values.value} of ${player.hand[1].suits}`;
+    let playerHandValue = player.handTotal(player);
+    let playerHand = `%c ${player.name} has: \n [${playerCard1}] and \n [${playerCard2}]; \n Hand value: ${playerHandValue}`;
 
     await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1000));
     await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor), console.log("-----------------")), 1500));
@@ -89,13 +89,15 @@ const checkWinner = (player, dealer) => {
     const hitOrStay = prompt("Would you like to hit or stay?", "Stay").toUpperCase();
 
     if (hitOrStay === 'HIT') {
-        dealerCard1 = `Card 1: ${dealer.hand[0].value} of ${dealer.hand[0].suit}`;
-        dealerHandValue = dealer.handTotal;
+        dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
+        dealerHandValue = dealer.handTotal(dealer);
         dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
 
         playerHit(player, dealer);
-        let playerCard3 = `Card 3: ${player.hand[2].value} of ${player.hand[2].suit}`;
-        playerHandValue = player.handTotal;
+        let playerCard3 = `Card 3: ${player.hand[2].values.value} of ${player.hand[2].suits}`;
+
+        playerHandValue = player.handTotal(player.cards);
+
         playerHand = `%c ${player.name} has \n [${playerCard1}], \n [${playerCard2}] and \n [${playerCard3}] \n Hand value: ${playerHandValue}`;
 
         console.log(dealerHand, dealerColor);
@@ -106,9 +108,10 @@ const checkWinner = (player, dealer) => {
 
     } else {
         dealerHit(dealer)
-        dealerCard1 = `Card 1: ${dealer.hand[0].value} of ${dealer.hand[0].suit}`;
-        let dealerCard3 = `Card 3: ${dealer.hand[2].value} of ${dealer.hand[2].suit}`;
-        dealerHandValue = dealer.handTotal;
+        dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
+        let dealerCard3 = `Card 3: ${dealer.hand[2].values.value} of ${dealer.hand[2].suits}`;
+
+        dealerHandValue = dealer.handTotal(dealer);
         dealerHand = `%c ${dealer.name} has \n [${dealerCard1}], \n [${dealerCard2}] and \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
 
         console.log(dealerHand, dealerColor);
