@@ -34,24 +34,18 @@ const checkWinner = (player, dealer) => {
     }
 }
 
-// player hand is <= 21 and player hand is > dealer hand
-// -- player wins do to dealer bust
-// player hand is > 21 and dealer hand is <= 21
-// -- player bust and dealer wins
-// player hand and dealer hand are =
-// -- this results in a push
-
 // IIFE
 (async () => {
     // get player name and create player
-    const nameOfPlayer = prompt("What's your name boss?");
+    // if name isn't provided default to player
+    const nameOfPlayer = prompt("What's your name boss?", "Player 1"); // how to default to player if name isn't provided
     let player = new Player(nameOfPlayer);
 
     //initial game play set to no
     // loop through prompt until player inputs Y or Yes
     let readyToPlay = "N"
     do {
-        readyToPlay = prompt("Are you ready to play blackjack?").toUpperCase();
+        readyToPlay = prompt("Are you ready to play blackjack?", "Yes").toUpperCase();
     } while (readyToPlay === "N" || readyToPlay === "NO");
 
     // guarded clause
