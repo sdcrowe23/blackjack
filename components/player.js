@@ -11,6 +11,7 @@ export default class Player {
     // pops card off dealer.deck and pushes to player.hand
     hit(dealerDeck) {
         this.hand.push(dealerDeck.cards.pop());
+        handScorer(this.hand);
     }
 
     // pops card off dealer.deck and pushes card to dealer.hand
@@ -19,7 +20,7 @@ export default class Player {
     }
 
     // call handScorer function to get total value of hand
-    get handTotal() {
+    handTotal() {
         return handScorer(this.hand);
     }
 }
