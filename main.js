@@ -7,83 +7,92 @@ import Player from "./components/player.js"
 import Dealer from "./components/dealer.js"
 import { handScorer } from "./components/scoreHandler.js"
 
-/*
 
-1. Player answers prompt to start game
-2. Two cards are dealt to player and dealer (dealer card(1) is hidden)
-3a. Player has option to 'hit' or 'stay'
-3b. If player chooses to 'hit', card is dealt to player (player hand total value is updated)
-3c. if player chooses to 'stay' then the dealers is dealt another card (dealer hand total value is updated minus hidden card)
-3d. Dealer card is revealed
-4. Dealer hand value is compared with the player hand value
-5. Display win/lose browser console message to player
-6. Ask if the player wants to play again? (repeat steps)
-
-*/
-
-
+// push card from deck array to player hand
 const playerHit = (player, dealer) => {
     player.hand.push(dealer.deck.cards.pop());
 }
 
+// push card from deck array to dealer hand
 const dealerHit = (dealer) => {
     dealer.hand.push(dealer.deck.cards.pop());
 }
 
+// compare dealer hand value to player hand value
 const checkWinner = (player, dealer) => {
-    if (player.handTotal <= 21 && player.hand > dealer.handTotal) {
-        console.log('Hooooray! You won!')
-    } else {
-        console.log('Boo! The dealer won.')
+    const winnerColor = "color: green; font-size: 18px";
+    const winnerMessage = '%c Hooooray! You won!'
+    const loserColor = "color: red; font-size: 18px";
+    const loserMessage = '%c You bust! The dealer won.';
+
+    if (player.handTotal <= 21 && dealer.handTotal < player.handTotal) {
+        console.log(winnerMessage, winnerColor);
+    } else if (player.handTotal > 21 && dealer.handTotal <= 21) {
+        console.log(loserMessage, loserColor)
+    } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21) {
+        console.log("You tied!")
     }
 }
 
+// player hand is <= 21 and player hand is > dealer hand
+// -- player wins do to dealer bust
+// player hand is > 21 and dealer hand is <= 21
+// -- player bust and dealer wins
+// player hand and dealer hand are =
+// -- this results in a push
+
 // IIFE
 (async () => {
+    // get player name and create player
     const nameOfPlayer = prompt("What's your name boss?");
     let player = new Player(nameOfPlayer);
 
+    //initial game play set to no
+    // loop through prompt until player inputs Y or Yes
     let readyToPlay = "N"
     do {
         readyToPlay = prompt("Are you ready to play blackjack?").toUpperCase();
     } while (readyToPlay === "N" || readyToPlay === "NO");
 
-
+    // guarded clause
     if (readyToPlay !== "Y" && readyToPlay !== "YES") return;
+    let dealerColor = "color: dodgerblue; font-size: 18px";
+    let playerColor = "color: gold; font-size: 18px"
 
+
+    // init dealer and deal cards to player
     const dealer = new Dealer();
-    console.log(dealer)
     dealer.deal(player);
     let hiddenCard = 'HIDDEN CARD';
 
     let playerCard1 = `Card 1: ${player.hand[0].value} of ${player.hand[0].suit}`;
     let playerCard2 = `Card 2: ${player.hand[1].value} of ${player.hand[1].suit}`;
     let playerHandValue = player.handTotal;
-    let playerHand = `${player.name} has [${playerCard1}] and [${playerCard2}]; Hand value: ${playerHandValue}`;
+    let playerHand = `%c ${player.name} has: \n [${playerCard1}] and \n [${playerCard2}]; \n Hand value: ${playerHandValue}`;
 
     let dealerCard1 = `Card 1: ${hiddenCard}`;
     let dealerCard2 = `Card 2: ${dealer.hand[1].value} of ${dealer.hand[1].suit}`;
     let dealerHandValue = dealer.handTotal - dealer.hand[0].value;
-    let dealerHand = `${dealer.name} has [${dealerCard1}] and [${dealerCard2}]; Hand value: ${dealerHandValue}`;
+    let dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}]; \n Hand value: ${dealerHandValue}`;
 
 
-    await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand)), 1500));
-    await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand), console.log("-----------------")), 1000));
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1500));
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor), console.log("-----------------")), 1000));
 
     const hitOrStay = prompt("Would you like to hit or stay?")
 
     if (hitOrStay === 'hit') {
         dealerCard1 = `Card 1: ${dealer.hand[0].value} of ${dealer.hand[0].suit}`;
         dealerHandValue = dealer.handTotal;
-        dealerHand = `${dealer.name} has [${dealerCard1}] and [${dealerCard2}]; Hand value: ${dealerHandValue}`;
+        dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
 
         playerHit(player, dealer);
         const playerCard3 = `Card 3: ${player.hand[2].value} of ${player.hand[2].suit}`;
         playerHandValue = player.handTotal;
-        playerHand = `${player.name} has [${playerCard1}], [${playerCard2}] and [${playerCard3}] Hand value: ${playerHandValue}`;
+        playerHand = `%c ${player.name} has \n [${playerCard1}], \n [${playerCard2}] and \n [${playerCard3}] \n Hand value: ${playerHandValue}`;
 
-        console.log(playerHand);
-        console.log(dealerHand);
+        console.log(dealerHand, dealerColor);
+        console.log(playerHand, playerColor);
         console.log("-----------------");
 
         checkWinner(player, dealer);
@@ -93,10 +102,10 @@ const checkWinner = (player, dealer) => {
         dealerCard1 = `Card 1: ${dealer.hand[0].value} of ${dealer.hand[0].suit}`;
         let dealerCard3 = `Card 3: ${dealer.hand[2].value} of ${dealer.hand[2].suit}`;
         dealerHandValue = dealer.handTotal;
-        dealerHand = `${dealer.name} has [${dealerCard1}], [${dealerCard2}] and [${dealerCard3}]; Hand value: ${dealerHandValue}`;
+        dealerHand = `%c ${dealer.name} has \n [${dealerCard1}], \n [${dealerCard2}] and \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
 
-        console.log(playerHand);
-        console.log(dealerHand);
+        console.log(playerHand, playerColor);
+        console.log(dealerHand, dealerColor);
         console.log("-----------------");
 
         checkWinner(player, dealer);
