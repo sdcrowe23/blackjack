@@ -24,13 +24,16 @@ const checkWinner = (player, dealer) => {
     const winnerMessage = '%c Hooooray! You won!'
     const loserColor = "color: red; font-size: 18px";
     const loserMessage = '%c You bust! The dealer won.';
+    const tie = "%c You tied!"
 
     if (player.handTotal <= 21 && dealer.handTotal < player.handTotal) {
         console.log(winnerMessage, winnerColor);
     } else if (player.handTotal > 21 && dealer.handTotal <= 21) {
         console.log(loserMessage, loserColor)
     } else if (player.handTotal < dealer.handTotal && dealer.handTotal <= 21) {
-        console.log("You tied!")
+        console.log(loserMessage, loserColor)
+    } else if (player.handTotal === dealer.handTotal) {
+        console.log(tie, loserColor);
     }
 }
 
@@ -40,6 +43,10 @@ const checkWinner = (player, dealer) => {
     // if name isn't provided default to player
     const nameOfPlayer = prompt("What's your name boss?", "Player 1"); // how to default to player if name isn't provided
     let player = new Player(nameOfPlayer);
+
+    if (nameOfPlayer === null) {
+        player = new Player('Player 1')
+    }
 
     //initial game play set to no
     // loop through prompt until player inputs Y or Yes
