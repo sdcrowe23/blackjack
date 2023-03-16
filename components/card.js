@@ -2,8 +2,8 @@
 
 export default class Card {
     constructor(suits, values) {
-        this.suit = suits;
-        this.value = values;
+        this.suits = suits;
+        this.values = values;
 
     }
 
@@ -14,19 +14,58 @@ export default class Card {
         suit4: 'Clubs'
     }
 
-    static values = {
-        value1: 2,
-        value2: 3,
-        value3: 4,
-        value4: 5,
-        value5: 6,
-        value6: 7,
-        value7: 8,
-        value8: 9,
-        value9: 10,
-        value10: "J",
-        value11: "Q",
-        value12: "K",
-        value13: "A"
-    }
+    static values = [
+        {
+            value: '2',
+            weight: 2
+        },
+        {
+            value: '3',
+            weight: 3
+        },
+        {
+            value: '4',
+            weight: 4
+        },
+        {
+            value: '5',
+            weight: 5
+        },
+        {
+            value: '6',
+            weight: 6
+        },
+        {
+            value: '7',
+            weight: 7
+        },
+        {
+            value: '8',
+            weight: 8
+        },
+        {
+            value: '9',
+            weight: 9
+        },
+        {
+            value: '10',
+            weight: 10
+        },
+        {
+            value: 'J',
+            weight: 10
+        },
+        {
+            value: 'Q',
+            weight: 10
+        },
+        {
+            value: 'K',
+            weight: 10
+        },
+        {
+            value: 'A',
+            weight: 1
+        }
+    ]
 }
