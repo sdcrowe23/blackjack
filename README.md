@@ -22,16 +22,37 @@ A player can:
 
 ## Game Instructions
 
-How do you play this game?
+As of now, this game is played in the browser console. 
+
+1. User can access the blackjack game [here](https://sdcrowe23.github.io/blackjack/)
+2. To view the output of the game state, user needs to press F12 on keyboard - for Mac users, press ```fn + F12```
+3. User will be prompted for their name
+4. User will be prompted to play game (Y/N)
+5. Dealer will deal two cards, one to player then to dealer, twice (dealer will have 1 card hidden)
+6. User will have the option to "hit" or "stay" (hit/stay)
+7. If the user chooses "hit" then a card will be added to their hand
+8. If a user chooses "stay" then the dealer will have a card added to it's hand
+9. The total value of both the user and dealer hands are compared and a winner is declared
+10. To play again, user will have to refresh the browser
 
 ## Tech Stack
 
-- JavaScript, HTML and CSS
+- JavaScript, Minimal HTML and CSS
 
 ## Build Process
 
-1. Please detail your approach for building out blackjack
+1. Create classes of Card, Deck, Dealer and Player
+2. Seperate classes and import into main file
+3. Create functions for hit, deal, and checking for winner
+4. Create logic for game play
+5. Tweak console.log outputs 
+6. Add checks for alert scenarios (such as default values and hitting cancel)
 
 ## Next Steps
 
-In future I would like to add to this game...
+1. Create UI
+2. Add betting capabilities
+3. Add more than one deck
+4. Add capabilities for dealer getting soft/hard 17
+5. Track wins/loses/ties
+6. Add doubles/splits
