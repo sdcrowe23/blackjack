@@ -24,8 +24,8 @@ A player can:
 
 As of now, this game is played in the browser console. 
 
-1. User can access the blackjack game [here](https://sdcrowe23.github.io/blackjack/)
-2. To view the output of the game state, user needs to press F12 on keyboard - for Mac users, press ```fn + F12```
+1. To view the output of the game state, user needs to press F12 on keyboard - for Mac users, press ```fn + F12```
+2. User can access the blackjack game [here](https://sdcrowe23.github.io/blackjack/)
 3. User will be prompted for their name
 4. User will be prompted to play game (Y/N)
 5. Dealer will deal two cards, one to player then to dealer, twice (dealer will have 1 card hidden)
@@ -46,13 +46,12 @@ As of now, this game is played in the browser console.
 3. Create functions for hit, deal, and checking for winner
 4. Create logic for game play
 5. Tweak console.log outputs 
-6. Add checks for alert scenarios (such as default values and hitting cancel)
+6. Add checks for alert prompts (such as default values and hitting cancel)
 
 ## Next Steps
 
 1. Create UI
 2. Add betting capabilities
 3. Add more than one deck
-4. Add capabilities for dealer getting soft/hard 17
-5. Track wins/loses/ties
-6. Add doubles/splits
+4. Track wins/loses/ties
+5. Add doubles/splits
