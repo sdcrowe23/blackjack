@@ -91,6 +91,7 @@ const checkWinner = (player, dealer) => {
     console.log(div);
     console.log("Dealer reveals card");
     console.log(div);
+
     await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1000));
     await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor)), 1500));
 
@@ -118,17 +119,10 @@ const checkWinner = (player, dealer) => {
         dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}], \n [${dealerCard2}]; and \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
     }
 
-    let playerChoice = `${player.name}: ${hitOrStay}`.toLowerCase();
-
-    console.log(div);
-    console.log("dealer hit")
     console.log(div);
     console.log(dealerHand, dealerColor);
-    console.log(div);
-    console.log(playerChoice);
-    console.log(div);
     console.log(playerHand, playerColor);
-
     console.log(div);
+
     checkWinner(player, dealer);
 })();
