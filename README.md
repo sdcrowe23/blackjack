@@ -27,11 +27,11 @@ As of now, this game is played in the browser console.
 1. To view the output of the game state, user needs to press F12 on keyboard - for Mac users, press ```fn + F12```
 2. User can access the blackjack game [here](https://sdcrowe23.github.io/blackjack/)
 3. User will be prompted for their name
-4. User will be prompted to play game (Y/N)
-5. Dealer will deal two cards, one to player then to dealer, twice (dealer will have 1 card hidden)
-6. User will have the option to "hit" or "stay" (hit/stay)
-7. If the user chooses "hit" then a card will be added to their hand
-8. If a user chooses "stay" then the dealer will have a card added to it's hand
+4. Dealer will deal two cards, one to player then to dealer, twice (dealer will have 1 card hidden)
+5. User will have the option to "hit" or "stay" (hit/stay)
+6. If the user chooses "hit" then a card will be added to their hand
+7. If a user chooses "stay" then the dealer will have a card added to it's hand
+8. Dealer will reveal card
 9. The total value of both the user and dealer hands are compared and a winner is declared
 10. To play again, user will have to refresh the browser
 
