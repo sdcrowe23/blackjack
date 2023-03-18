@@ -10,17 +10,14 @@ import { handScorer } from "./components/scoreHandler.js"
 
 // push card from deck array to player hand
 const playerHit = (player, dealer) => {
-    player.hand.push(dealer.deck.cards.pop());
-    handScorer(player);
-    handScorer(dealer)
-    return
+    // get card from deck
+    return player.hand.push(dealer.deck.cards.pop());
 }
 
 // push card from deck array to dealer hand
 const dealerHit = (dealer) => {
-    dealer.hand.push(dealer.deck.cards.pop());
-    handScorer(dealer);
-    return;
+    // get a card from deck
+    return dealer.hand.push(dealer.deck.cards.pop());
 }
 
 // compare dealer hand value to player hand value
@@ -29,23 +26,31 @@ const checkWinner = (player, dealer) => {
     const winnerMessage = '%c Hooooray! You won!'
     const loserColor = "color: red; font-size: 18px";
     const loserMessage = '%c The dealer won.';
+    const dealerBust = "%c The dealer bust";
+    const playerBust = "%c you bust";
     const tie = "%c You tied!"
+    let playerHandTotal = player.handTotal(player);
+    let dealerHandTotal = dealer.handTotal(dealer);
 
-    if (player.handTotal(player) <= 21 && dealer.handTotal(dealer) < player.handTotal(player) || player.handTotal(player) <= 21 && dealer.handTotal(dealer) > 21) {
-        // player hand wins
+    if (playerHandTotal === 21 && dealerHandTotal !== 21 || playerHandTotal < 21 && dealerHandTotal > 21 || playerHandTotal < 21 && playerHandTotal > dealerHandTotal) {
         console.log(winnerMessage, winnerColor);
-    } else if (player.handTotal(player) < dealer.handTotal(dealer) && dealer.handTotal(dealer) <= 21 || player.handTotal(player) > 21 && dealer.handTotal(dealer) <= 21) {
-        // dealer hand wins
-        console.log(loserMessage, loserColor);
-    } else if (player.handTotal(player) === dealer.handTotal(dealer)) {
-        // results in tie
-        console.log(tie, loserColor);
+    } else if (playerHandTotal !== 21 && dealerHandTotal === 21 || playerHandTotal > 21 && dealerHandTotal < 21 || dealerHandTotal < 21 && dealerHandTotal > playerHandTotal) {
+        console.log(loserMessage, loserColor)
+    } else if (playerHandTotal > 21 || dealerHandTotal > 21) {
+        console.log('Busted!')
+    } else {
+        console.log(tie, loserColor)
     }
-
+    return;
 }
 
 // IIFE
 (async () => {
+    // console styles
+    let dealerColor = "color: #1640C9; font-size: 18px";
+    let playerColor = "color: #D5C71B; font-size: 18px"
+    const div = "-----------------"
+
     // get player name and create player
     // if name isn't provided default to player
     // how to default to player if name isn't provided
@@ -59,20 +64,6 @@ const checkWinner = (player, dealer) => {
         player = new Player('Player 1');
     }
 
-    //initial game play set to no
-    // loop through prompt until player inputs 'y' or 'yes'
-    let readyToPlay = "N"
-    do {
-        readyToPlay = prompt("Are you ready to play blackjack?", "Yes").toUpperCase();
-    } while (readyToPlay === "N" || readyToPlay === "NO");
-
-    // check if player typed y or yes
-    if (readyToPlay !== "Y" && readyToPlay !== "YES") return;
-
-    // console styles
-    let dealerColor = "color: #1640C9; font-size: 18px";
-    let playerColor = "color: #D5C71B; font-size: 18px"
-
     // init dealer and deal cards to player
     const dealer = new Dealer();
     dealer.deal(player);
@@ -81,13 +72,25 @@ const checkWinner = (player, dealer) => {
     let dealerCard1 = `Card 1: ${hiddenCard}`;
     let dealerCard2 = `Card 2: ${dealer.hand[1].values.value} of ${dealer.hand[1].suits}`;
     let dealerHandValue = dealer.hand[1].values.weight;
-    let dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}]; \n Hand value: ${dealerHandValue}`;
+    let dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}];`;
 
     let playerCard1 = `Card 1: ${player.hand[0].values.value} of ${player.hand[0].suits}`;
     let playerCard2 = `Card 2: ${player.hand[1].values.value} of ${player.hand[1].suits}`;
     let playerHandValue = player.handTotal(player);
     let playerHand = `%c ${player.name} has: \n [${playerCard1}] and \n [${playerCard2}]; \n Hand value: ${playerHandValue}`;
 
+    // Display dealer and player hands
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1000));
+    await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor)), 1500));
+
+    // Reveal dealer card 1
+    dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
+    dealerHandValue = dealer.handTotal(dealer);
+    dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}]; \n Hand value: ${dealerHandValue}`;
+
+    console.log(div);
+    console.log("Dealer reveals card");
+    console.log(div);
     await new Promise((resolve) => setTimeout(() => resolve(console.log(dealerHand, dealerColor)), 1000));
     await new Promise((resolve) => setTimeout(() => resolve(console.log(playerHand, playerColor)), 1500));
 
@@ -100,76 +103,32 @@ const checkWinner = (player, dealer) => {
         playerHandValue = player.handTotal(player.cards);
         let playerCard3 = `Card 3: ${player.hand[2].values.value} of ${player.hand[2].suits}`;
         playerHand = `%c ${player.name} has: \n [${playerCard1}], \n [${playerCard2}] and \n [${playerCard3}] \n Hand value: ${playerHandValue}`;
-        let playerChoice = `${player.name}: ${hitOrStay}`;
-
-        dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-        dealerHandValue = dealer.handTotal(dealer);
-        dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
-
-        console.log(playerChoice);
-        console.log("-----------------");
-        console.log("Dealer reveals hole card");
-        console.log("-----------------");
-        console.log(dealerHand, dealerColor);
-        console.log(playerHand, playerColor);
-        console.log("-----------------");
-
-        if (dealerHandValue < 17) {
-
-            dealerHit(dealer);
-            dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-
-            let dealerCard3 = `Card 3: ${dealer.hand[2].values.value} of ${dealer.hand[2].suits}`
-            dealerHandValue = dealer.handTotal(dealer);
-            dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}], \n [${dealerCard2}] \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
-
-        } else {
-            dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-            dealerHandValue = dealer.handTotal(dealer);
-            dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
-
-        }
-
-        console.log(dealerHand, dealerColor);
-        console.log(playerHand, playerColor);
-        console.log("-----------------");
-
-        checkWinner(player, dealer);
 
     } else {
         playerHandValue = player.handTotal(player.cards);
         playerHand = `%c ${player.name} has \n [${playerCard1}] and \n [${playerCard2}] \n Hand value: ${playerHandValue}`;
         let playerChoice = `${player.name}: ${hitOrStay}`;
-
-        dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-        dealerHandValue = dealer.handTotal(dealer);
-        dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
-
-        console.log(playerChoice);
-        console.log("-----------------");
-        console.log("Dealer reveals hole card");
-        console.log("-----------------");
-        console.log(dealerHand, dealerColor);
-        console.log(playerHand, playerColor);
-        console.log("-----------------");
-
-
-        if (dealerHandValue < 17) {
-            dealerHit(dealer);
-            dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-            let dealerCard3 = `Card 3: ${dealer.hand[2].values.value} of ${dealer.hand[2].suits}`
-            dealerHandValue = dealer.handTotal(dealer);
-            dealerHand = `%c ${dealer.name} has \n [${dealerCard1}], \n [${dealerCard2}] \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
-        } else {
-            dealerCard1 = `Card 1: ${dealer.hand[0].values.value} of ${dealer.hand[0].suits}`;
-            dealerHandValue = dealer.handTotal(dealer);
-            dealerHand = `%c ${dealer.name} has \n [${dealerCard1}] and \n [${dealerCard2}] \n Hand value: ${dealerHandValue}`;
-        }
-
-        console.log(dealerHand, dealerColor);
-        console.log(playerHand, playerColor);
-        console.log("-----------------");
-
-        checkWinner(player, dealer);
     }
+
+    if (dealerHandValue <= 16) {
+        dealerHit(dealer);
+
+        let dealerCard3 = `Card 3: ${dealer.hand[2].values.value} of ${dealer.hand[2].suits}`;
+        dealerHandValue = dealer.handTotal(dealer);
+        dealerHand = `%c ${dealer.name} has: \n [${dealerCard1}], \n [${dealerCard2}]; and \n [${dealerCard3}] \n Hand value: ${dealerHandValue}`;
+    }
+
+    let playerChoice = `${player.name}: ${hitOrStay}`.toLowerCase();
+
+    console.log(div);
+    console.log("dealer hit")
+    console.log(div);
+    console.log(dealerHand, dealerColor);
+    console.log(div);
+    console.log(playerChoice);
+    console.log(div);
+    console.log(playerHand, playerColor);
+
+    console.log(div);
+    checkWinner(player, dealer);
 })();
